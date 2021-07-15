@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1063399945045",
+    "project_id": "tiktok-liveapp",
+    "storage_bucket": "tiktok-liveapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063399945045:android:9d3570137cfa550078f5dc",
+        "android_client_info": {
+          "package_name": "com.example.tiktokliveapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1063399945045-27mpfgs7kspgminnrmj1e9fgnv7gafar.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tiktokliveapp",
+            "certificate_hash": "63c1a94cc618d288dc108d82323f265cbf081070"
+          }
+        },
+        {
+          "client_id": "1063399945045-87qoruoikf7a765ka1h3mia7qn975dco.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIA_vOmCovYHc5FsRVvICsz3gVopUoA7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1063399945045-87qoruoikf7a765ka1h3mia7qn975dco.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

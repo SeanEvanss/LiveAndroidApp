@@ -1,0 +1,52 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Basic">
+
+        <EditTextPreference
+            app:key="editUserName"
+            app:title="Change your username"
+            app:summary="First time's free, every subsequent time cost $15"/>
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="@string/sync_title"
+            app:summary="No clue what this is supposed to do, cheers"/>
+
+        <SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="@string/attachment_summary_off"
+            app:summaryOn="@string/attachment_summary_on"
+            app:title="@string/attachment_title" />
+
+        <CheckBoxPreference
+            app:key="notifications"
+            app:title="Do you want to allow notifications ?"
+            app:summary="It dosen't matter since we never coded it so... yea"/>
+
+        <SwitchPreference
+            app:key="dark_mode"
+            app:title="Dark mode"
+            app:summary="Toggle app theme"/>
+
+        <ListPreference
+            app:defaultValue="I'm still thinking"
+            app:entries="@array/shark_replies"
+            app:entryValues="@array/shark_replies"
+            app:key="shark_reply"
+            app:title="How often do you think about pandas"
+            app:summary="Please be honest"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="signature"
+            app:title="@string/signature_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Advanced" app:summary="You think we did this ?">
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
