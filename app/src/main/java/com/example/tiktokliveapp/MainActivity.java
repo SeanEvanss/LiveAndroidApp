@@ -41,9 +41,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        Log.i(TAG, "onCreate CALLED");
         userSharedPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
         userSharedPrefEditor= userSharedPreferences.edit();
 
@@ -51,40 +55,38 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        //We can place this in a function
-        defaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
-        TextView welcome_text =findViewById(R.id.welcome_user);
-        welcome_text.setText("Welcome "+ defaultSharedPreferences.getString("editUserName","user"));
-
-
-
-        currentUser= FirebaseAuth.getInstance().getCurrentUser();
-        Log.i(TAG, "onCreate: MainActivity "+ currentUser.getEmail());
-
-
 
         Button go_live= findViewById(R.id.start_live);
         go_live.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Log.i(TAG, "onClick: STARTING LIVE");
+                recreate();
             }
         });
 
-        //The first time the app opens we read the SharedPrefs and set the theme. Will turn this into a function.
-        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
-        SharedPreferences sharedPref= PreferenceManager.getDefaultSharedPreferences(this);
-        nightMode= sharedPref.getBoolean("dark_mode", true);
-        int DayNightMode= (nightMode)?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_NO;
-        AppCompatDelegate.setDefaultNightMode(DayNightMode);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //We can place this in a function
+        defaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        TextView welcome_text =findViewById(R.id.welcome_user);
+        welcome_text.setText("Welcome "+ defaultSharedPreferences.getString("editUserName","user"));
+
+        currentUser= FirebaseAuth.getInstance().getCurrentUser();
+        Log.i(TAG, "onCreate: MainActivity "+ currentUser);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        defaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        Log.i(TAG, "onResume CALLED");
+        //defaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         TextView welcome_text =findViewById(R.id.welcome_user);
         welcome_text.setText("Welcome "+ defaultSharedPreferences.getString("editUserName","user"));
 
@@ -106,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     //we override the default backbutton functionality by having an alerDialog prompt the user to confirm if they wish to log out.
     //We also called the FirebaseAuth signout function.

@@ -141,11 +141,7 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameEntry= sharedPreferences.getString("username","");
         passwordEntry= sharedPreferences.getString("password","");
-
-        if(currentUser!= null){
-            startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("authUser",currentUser));
-        }
-        else if(!usernameEntry.equals("")){
+        if(!usernameEntry.equals("")){
             loginAccount(usernameEntry, passwordEntry);
         }
 
@@ -153,15 +149,11 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mAuth.getCurrentUser()!= null){
-            FirebaseAuth.getInstance().signOut();
-        }
     }
 }

@@ -21,9 +21,11 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        //List of all the fragments we have
-        SettingsFragment settings= new SettingsFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment, settings).commit();
+        if(savedInstanceState==null){
+            //List of all the fragments we have
+            SettingsFragment settings= new SettingsFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment, settings).commit();
+        }
 
     }
 
