@@ -8,15 +8,20 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SettingsFragment extends PreferenceFragmentCompat {
 
     private static String TAG= "debug";
     private SharedPreferences prefs;
+    private FirebaseUser currentUser;
 
     SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             Log.i(TAG, "onSharedPreferenceChanged: there was a pref change");
+
             if(key.equals("dark_mode")){
                 Boolean darkMode= sharedPreferences.getBoolean("dark_mode", true);
                     Log.i(TAG, "onSharedPreferenceChanged: day night changed");
@@ -31,6 +36,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
         Log.i(TAG, "onCreatePreferences: OnCreate Called");
+
+        //This part needs some cleaning up
         if(prefs!=null){
             prefs.registerOnSharedPreferenceChangeListener(listener);
         }
@@ -49,13 +56,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         prefs.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
-    /*
-    @Override
-    public void onResume() {
-        super.onResume();
-        prefs.registerOnSharedPreferenceChangeListener(listener);
-    }
-    */
 
     @Override
     public void onDestroy() {

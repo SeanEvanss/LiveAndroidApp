@@ -26,41 +26,42 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    //Remeber that we can call FirebaseAuth anywhere because it's a singleton class (i.e there can only be one instance shared throughout the entire application)
+
     private static final String TAG = "debug";
     Boolean nightMode;
     private FirebaseUser currentUser;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor sharedPrefEditor;
+
+    //Might wanna consider not having 2 sharedPrefences and just using the default since we have a settings fragment and handles that
+    SharedPreferences userSharedPreferences;
+    SharedPreferences.Editor userSharedPrefEditor;
+
+    SharedPreferences defaultSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sharedPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        sharedPrefEditor= sharedPreferences.edit();
+        userSharedPreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        userSharedPrefEditor= userSharedPreferences.edit();
 
         Toolbar myToolBar= (androidx.appcompat.widget.Toolbar)findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        //We can place this in a function
+        defaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         TextView welcome_text =findViewById(R.id.welcome_user);
-        welcome_text.setText("Welcome "+ getString(R.string.user_name));
-        /*
-        if(savedInstanceState== null){
-            Bundle extra= getIntent().getExtras();
-            if(extra==null){
-                currentUser=null;
-                Log.d(TAG, "onCreate: auth not recieved, major issue");
-            }
-            else{
-                currentUser= (FirebaseUser) extra.getSerializable("authUser");
-            }
-        }
-        else {
-            currentUser= (FirebaseUser) savedInstanceState.getSerializable("authUser");
-        }
-        */
+        welcome_text.setText("Welcome "+ defaultSharedPreferences.getString("editUserName","user"));
+
+
+
+        currentUser= FirebaseAuth.getInstance().getCurrentUser();
+        Log.i(TAG, "onCreate: MainActivity "+ currentUser.getEmail());
+
+
 
         Button go_live= findViewById(R.id.start_live);
         go_live.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +81,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        defaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        TextView welcome_text =findViewById(R.id.welcome_user);
+        welcome_text.setText("Welcome "+ defaultSharedPreferences.getString("editUserName","user"));
+
+    }
+
+    //The next 2 functions are for the menu bar ( the 3 dots near the top)
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -94,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //we override the default backbutton functionality by having an alerDialog prompt the user to confirm if they wish to log out.
+    //We also called the FirebaseAuth signout function.
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -104,9 +119,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Reset the saved username and password since they're signing out
-                        sharedPrefEditor.putString("saved_username", "");
-                        sharedPrefEditor.putString("saved_password", "");
-                        sharedPrefEditor.apply();
+                        userSharedPrefEditor.putString("saved_username", "");
+                        userSharedPrefEditor.putString("saved_password", "");
+                        userSharedPrefEditor.apply();
 
                         FirebaseAuth.getInstance().signOut();
                         MainActivity.super.onBackPressed();

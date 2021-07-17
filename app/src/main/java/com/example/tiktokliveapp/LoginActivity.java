@@ -120,8 +120,11 @@ public class LoginActivity extends AppCompatActivity {
            public void onComplete(@NonNull Task<AuthResult> task) {
                if(task.isSuccessful()){
                    FirebaseUser user= mAuth.getCurrentUser();
+                   Log.i(TAG, "onComplete: login "+ user.getEmail());
+                   Log.i(TAG, "onComplete: login "+ user.getDisplayName());
                    //add new intent
-                   startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("authUser",user));
+                   Intent mIntent= new Intent(LoginActivity.this, MainActivity.class);
+                   startActivity(mIntent);
                }
                else{
                    Toast.makeText(LoginActivity.this, "Incorrect email or password, please try again", Toast.LENGTH_LONG).show();
@@ -150,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+
         super.onStop();
     }
 

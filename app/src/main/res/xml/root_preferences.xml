@@ -1,11 +1,14 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="Basic">
+    <PreferenceCategory app:title="Account settings">
 
         <EditTextPreference
             app:key="editUserName"
             app:title="Change your username"
             app:summary="First time's free, every subsequent time cost $15"/>
+
+    </PreferenceCategory>
+    <PreferenceCategory app:title="Basic settings">
 
         <SwitchPreferenceCompat
             app:key="sync"
